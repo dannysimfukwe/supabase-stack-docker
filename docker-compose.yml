@@ -44,9 +44,10 @@ services:
           - api-gw
     healthcheck:
       test: ["CMD", "kong", "health"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 10s
     depends_on:
       - studio
     ports:
