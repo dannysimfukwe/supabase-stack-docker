@@ -1,6 +1,5 @@
 services:
   studio:
-    container_name: supabase-studio
     image: supabase/studio:2026.06.03-sha-0bca601
     restart: unless-stopped
     healthcheck:
@@ -36,9 +35,8 @@ services:
     volumes:
       - ./volumes/snippets:/app/snippets:z
       - ./volumes/functions:/app/edge-functions:ro,z
-
   kong:
-    container_name: supabase-kong
+supabase-kong
     image: kong/kong:3.9.1
     restart: unless-stopped
     networks:
@@ -72,9 +70,8 @@ services:
       DASHBOARD_USERNAME: supabase
       DASHBOARD_PASSWORD: this_password_is_insecure_and_should_be_updated
     entrypoint: ["/bin/sh", "/home/kong/kong-entrypoint.sh"]
-
   auth:
-    container_name: supabase-auth
+supabase-auth
     image: supabase/gotrue:v2.189.0
     restart: unless-stopped
     healthcheck:
@@ -120,9 +117,8 @@ services:
       GOTRUE_MAILER_URLPATHS_EMAIL_CHANGE: /auth/v1/verify
       GOTRUE_EXTERNAL_PHONE_ENABLED: "true"
       GOTRUE_SMS_AUTOCONFIRM: "true"
-
   rest:
-    container_name: supabase-rest
+supabase-rest
     image: postgrest/postgrest:v14.12
     restart: unless-stopped
     depends_on:
@@ -146,9 +142,8 @@ services:
       PGRST_APP_SETTINGS_JWT_SECRET: your-super-secret-jwt-token-with-at-least-32-characters-long
       PGRST_APP_SETTINGS_JWT_EXP: "3600"
     command: ["postgrest"]
-
   realtime:
-    container_name: realtime-dev.supabase-realtime
+realtime-dev.supabase-realtime
     image: supabase/realtime:v2.102.3
     restart: unless-stopped
     depends_on:
@@ -181,9 +176,8 @@ services:
       SEED_SELF_HOST: "true"
       RUN_JANITOR: "true"
       DISABLE_HEALTHCHECK_LOGGING: "true"
-
   storage:
-    container_name: supabase-storage
+supabase-storage
     image: supabase/storage-api:v1.60.4
     restart: unless-stopped
     depends_on:
@@ -225,9 +219,8 @@ services:
       S3_PROTOCOL_ACCESS_KEY_SECRET: 850181e4652dd023b7a98c58ae0d2d34bd487ee0cc3254aed6eda37307425907
     volumes:
       - ./volumes/storage:/var/lib/storage:z
-
   imgproxy:
-    container_name: supabase-imgproxy
+supabase-imgproxy
     image: darthsim/imgproxy:v3.30.1
     restart: unless-stopped
     volumes:
@@ -243,9 +236,8 @@ services:
       IMGPROXY_USE_ETAG: "true"
       IMGPROXY_AUTO_WEBP: "true"
       IMGPROXY_MAX_SRC_RESOLUTION: 16.8
-
   meta:
-    container_name: supabase-meta
+supabase-meta
     image: supabase/postgres-meta:v0.96.6
     restart: unless-stopped
     depends_on:
@@ -259,9 +251,8 @@ services:
       PG_META_DB_USER: postgres
       PG_META_DB_PASSWORD: your-super-secret-and-long-postgres-password
       CRYPTO_KEY: your-encryption-key-32-chars-min
-
   functions:
-    container_name: supabase-edge-functions
+supabase-edge-functions
     image: supabase/edge-runtime:v1.74.0
     restart: unless-stopped
     volumes:
@@ -287,9 +278,8 @@ services:
       - "start"
       - "--main-service"
       - "/home/deno/functions/main"
-
   db:
-    container_name: supabase-db
+supabase-db
     image: supabase/postgres:17.6.1.136
     restart: unless-stopped
     volumes:
@@ -329,9 +319,8 @@ services:
       - "config_file=/etc/postgresql/postgresql.conf"
       - "-c"
       - "log_min_messages=fatal"
-
   supavisor:
-    container_name: supabase-pooler
+supabase-pooler
     image: supabase/supavisor:2.9.5
     restart: unless-stopped
     ports:
@@ -378,7 +367,6 @@ services:
       - "/bin/sh"
       - "-c"
       - "/app/bin/migrate && /app/bin/supavisor eval \"$$(cat /etc/pooler/pooler.exs)\" && /app/bin/server"
-
 volumes:
   db_data:
   db-config:
