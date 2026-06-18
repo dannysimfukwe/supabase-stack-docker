@@ -36,7 +36,6 @@ services:
       - ./volumes/snippets:/app/snippets:z
       - ./volumes/functions:/app/edge-functions:ro,z
   kong:
-supabase-kong
     image: kong/kong:3.9.1
     restart: unless-stopped
     networks:
@@ -71,7 +70,6 @@ supabase-kong
       DASHBOARD_PASSWORD: this_password_is_insecure_and_should_be_updated
     entrypoint: ["/bin/sh", "/home/kong/kong-entrypoint.sh"]
   auth:
-supabase-auth
     image: supabase/gotrue:v2.189.0
     restart: unless-stopped
     healthcheck:
@@ -118,7 +116,6 @@ supabase-auth
       GOTRUE_EXTERNAL_PHONE_ENABLED: "true"
       GOTRUE_SMS_AUTOCONFIRM: "true"
   rest:
-supabase-rest
     image: postgrest/postgrest:v14.12
     restart: unless-stopped
     depends_on:
@@ -143,7 +140,6 @@ supabase-rest
       PGRST_APP_SETTINGS_JWT_EXP: "3600"
     command: ["postgrest"]
   realtime:
-realtime-dev.supabase-realtime
     image: supabase/realtime:v2.102.3
     restart: unless-stopped
     depends_on:
@@ -177,7 +173,6 @@ realtime-dev.supabase-realtime
       RUN_JANITOR: "true"
       DISABLE_HEALTHCHECK_LOGGING: "true"
   storage:
-supabase-storage
     image: supabase/storage-api:v1.60.4
     restart: unless-stopped
     depends_on:
@@ -220,7 +215,6 @@ supabase-storage
     volumes:
       - ./volumes/storage:/var/lib/storage:z
   imgproxy:
-supabase-imgproxy
     image: darthsim/imgproxy:v3.30.1
     restart: unless-stopped
     volumes:
@@ -237,7 +231,6 @@ supabase-imgproxy
       IMGPROXY_AUTO_WEBP: "true"
       IMGPROXY_MAX_SRC_RESOLUTION: 16.8
   meta:
-supabase-meta
     image: supabase/postgres-meta:v0.96.6
     restart: unless-stopped
     depends_on:
@@ -252,7 +245,6 @@ supabase-meta
       PG_META_DB_PASSWORD: your-super-secret-and-long-postgres-password
       CRYPTO_KEY: your-encryption-key-32-chars-min
   functions:
-supabase-edge-functions
     image: supabase/edge-runtime:v1.74.0
     restart: unless-stopped
     volumes:
@@ -279,7 +271,6 @@ supabase-edge-functions
       - "--main-service"
       - "/home/deno/functions/main"
   db:
-supabase-db
     image: supabase/postgres:17.6.1.136
     restart: unless-stopped
     volumes:
@@ -320,7 +311,6 @@ supabase-db
       - "-c"
       - "log_min_messages=fatal"
   supavisor:
-supabase-pooler
     image: supabase/supavisor:2.9.5
     restart: unless-stopped
     ports:
