@@ -27,4 +27,4 @@ awk '{
 
 sed -i '/^[[:space:]]*- key:[[:space:]]*$/d' "$KONG_DECLARATIVE_CONFIG"
 
-exec /docker-entrypoint.sh kong docker-start
+exec /entrypoint.sh kong docker-start
